@@ -1,0 +1,3 @@
+// Basicas para no sobrecargar el Github.
+node_modules/
+package-lock.json

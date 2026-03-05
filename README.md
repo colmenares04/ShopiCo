@@ -6,8 +6,9 @@ Aplicación de e-commerce completa construida como parte de la prueba técnica d
 
 - **Backend (API)**: NestJS con TypeORM, MySQL, JWT para autenticación.
 
-- **Frontend (Mobile)**: React Native con navegación tipada, context para auth, y servicios para productos/órdenes.
+- **Frontend (Mobile)**: React Native. 
 
+- **Docker**: Base de datos MySQL alojado en un contenedor.
 
 ## Estructura del Proyecto
 

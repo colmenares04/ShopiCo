@@ -1,0 +1,29 @@
+{
+  "name": "lemonbyte_worshop",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "db:up": "docker-compose -f api/docker-compose.yml up -d",
+    "db:down": "docker-compose -f api/docker-compose.yml down",
+    "api:dev": "npm run start:dev --prefix api",
+    "mobile:start": "npm run start --prefix mobile",
+    "dev": "concurrently -n \"DB,API,MOBILE\" -c \"cyan,magenta,blue\" \"npm run db:up && npm run api:dev\" \"npm run mobile:start\"",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/colmenares04/ShopiCo.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/colmenares04/ShopiCo/issues"
+  },
+  "homepage": "https://github.com/colmenares04/ShopiCo#readme",
+  "devDependencies": {
+    "concurrently": "^9.2.1"
+  }
+}

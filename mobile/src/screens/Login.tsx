@@ -35,7 +35,7 @@ export const Login = ({ navigation }: any) => {
 
     return (
         <SafeAreaView edges={['top', 'left', 'right']} style={{ flex: 1, backgroundColor: '#FAFAFA' }}>
-            {/* Header */}
+
             <View style={styles.header}>
                 <TouchableOpacity style={styles.iconBtn} onPress={() => navigation.goBack()}>
                     <ArrowLeft size={24} color={Colors.textPrimary} />
