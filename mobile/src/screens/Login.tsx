@@ -17,19 +17,26 @@ const TabItem = ({ Icon, label, active, onPress }: any) => (
 export const Login = ({ navigation }: any) => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [loading, setLoading] = useState(false);
     const setAuth = useAuthStore((state) => state.setAuth);
 
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
     const handleLogin = async () => {
-        // Validaciones mínimas requeridas 
-        if (!email.includes('@')) return Alert.alert('Error', 'Correo inválido');
+        // Validaciones
+        if (!email || !password) return Alert.alert('Error', 'Todos los campos son obligatorios');
+        if (!emailRegex.test(email)) return Alert.alert('Error', 'Correo inválido');
         if (password.length < 6) return Alert.alert('Error', 'Mínimo 6 caracteres');
 
+        setLoading(true);
         try {
             const data = await authService.login(email, password);
             setAuth(data.access_token, data.user);
             navigation.navigate('Home');
         } catch (error) {
             Alert.alert('Error', 'Credenciales incorrectas');
+        } finally {
+            setLoading(false);
         }
     };
 
@@ -50,18 +57,26 @@ export const Login = ({ navigation }: any) => {
                     placeholder="Correo electrónico"
                     onChangeText={setEmail}
                     autoCapitalize="none"
+                    keyboardType="email-address"
+                    accessibilityLabel="Campo de correo electrónico"
+                    returnKeyType="next"
                 />
                 <TextInput
                     style={styles.input}
                     placeholder="Contraseña"
                     secureTextEntry
                     onChangeText={setPassword}
+                    accessibilityLabel="Campo de contraseña"
+                    returnKeyType="done"
                 />
                 <TouchableOpacity
-                    style={[styles.button, { backgroundColor: Colors.primary }]}
+                    style={[styles.button, { backgroundColor: Colors.primary, opacity: loading ? 0.5 : 1 }]}
                     onPress={handleLogin}
+                    disabled={loading}
+                    accessibilityLabel="Botón de iniciar sesión"
+                    accessibilityRole="button"
                 >
-                    <Text style={styles.buttonText}>Iniciar sesión</Text>
+                    <Text style={styles.buttonText}>{loading ? 'Cargando...' : 'Iniciar sesión'}</Text>
                 </TouchableOpacity>
                 <Text style={styles.footerText}>¿Olvidaste tu contraseña? <Text style={{ color: Colors.primary }}>Recuperar contraseña </Text></Text>
 

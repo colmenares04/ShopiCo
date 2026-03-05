@@ -12,6 +12,7 @@ export const Checkout = ({ route, navigation }: any) => {
     const [coupon, setCoupon] = useState('');
     const [discount, setDiscount] = useState(0);
     const [alertVisible, setAlertVisible] = useState(false);
+    const [loading, setLoading] = useState(false);
     const token = useAuthStore(state => state.token);
 
     const shipping = 10.00;
@@ -29,6 +30,7 @@ export const Checkout = ({ route, navigation }: any) => {
             return;
         }
 
+        setLoading(true);
         try {
             const orderData = {
                 total: price + shipping - discount,
@@ -47,6 +49,8 @@ export const Checkout = ({ route, navigation }: any) => {
         } catch (error) {
             console.error(error);
             Alert.alert('Error', 'No se pudo procesar el pedido. Asegúrate de estar logueado.');
+        } finally {
+            setLoading(false);
         }
     };
 
@@ -128,6 +132,8 @@ export const Checkout = ({ route, navigation }: any) => {
                             style={styles.promoInput}
                             onChangeText={setCoupon}
                             onEndEditing={applyCoupon}
+                            accessibilityLabel="Campo de código de descuento"
+                            returnKeyType="done"
                         />
                         <Text style={styles.promoAppliedText}>Applied</Text>
                     </View>
@@ -141,8 +147,8 @@ export const Checkout = ({ route, navigation }: any) => {
                     <Text style={styles.totalValue}>${(price + shipping - discount).toFixed(2)}</Text>
                 </View>
 
-                <TouchableOpacity style={styles.confirmBtn} onPress={handleConfirm}>
-                    <Text style={styles.confirmBtnText}>Confirmar Pedido</Text>
+                <TouchableOpacity style={[styles.confirmBtn, loading && { opacity: 0.5 }]} onPress={handleConfirm} disabled={loading}>
+                    <Text style={styles.confirmBtnText}>{loading ? 'Procesando...' : 'Confirmar Pedido'}</Text>
                 </TouchableOpacity>
             </ScrollView>
         </SafeAreaView>

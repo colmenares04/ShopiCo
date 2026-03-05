@@ -33,7 +33,7 @@ export const CustomAlert = ({
         >
             <View style={styles.overlay}>
                 <View style={styles.alertBox}>
-                    <TouchableOpacity style={styles.closeBtn} onPress={onClose}>
+                    <TouchableOpacity style={styles.closeBtn} onPress={onClose} accessibilityLabel="Cerrar alerta" accessibilityRole="button">
                         <X size={20} color={Colors.textSecondary} />
                     </TouchableOpacity>
 
@@ -49,6 +49,8 @@ export const CustomAlert = ({
                             <TouchableOpacity
                                 style={[styles.button, styles.cancelBtn]}
                                 onPress={onClose}
+                                accessibilityLabel={cancelText}
+                                accessibilityRole="button"
                             >
                                 <Text style={styles.cancelText}>{cancelText}</Text>
                             </TouchableOpacity>
@@ -57,6 +59,8 @@ export const CustomAlert = ({
                         <TouchableOpacity
                             style={[styles.button, styles.confirmBtn]}
                             onPress={onConfirm || onClose}
+                            accessibilityLabel={confirmText}
+                            accessibilityRole="button"
                         >
                             <Text style={styles.confirmText}>{confirmText}</Text>
                         </TouchableOpacity>

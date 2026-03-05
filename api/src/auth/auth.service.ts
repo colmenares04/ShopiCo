@@ -2,6 +2,7 @@ import { Injectable, BadRequestException, UnauthorizedException } from '@nestjs/
 import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
 import { UsersService } from 'src/users/user.service';
+import { RegisterDto } from './dto/auth.dto';
 
 @Injectable()
 export class AuthService {
@@ -26,11 +27,7 @@ export class AuthService {
         }
         throw new UnauthorizedException('Credenciales inválidas');
     }
-    async register(userData: any) {
-        if (userData.password.length < 6) {
-            throw new BadRequestException('La contraseña debe tener al menos 6 caracteres');
-        }
-
+    async register(userData: RegisterDto) {
         const hashedPassword = await bcrypt.hash(userData.password, 10);
 
         const user = await this.usersService.create({

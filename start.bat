@@ -8,10 +8,10 @@ echo   ACLARATORIA IMPORTANTE: Es vital tener Docker abierto para que se genere 
 echo   Contenedor de la base de datos MySQL. En caso de tener complicaciones
 echo   Se puede utilizar:
 echo   cd api > npm run start:dev
-echo   cd mobile > npm run android    (En caso de Android)
+echo   cd mobile > npm run android
 echo   Ajustar las variables de entornos: Si usa Android Studio dejar http://10.0.2.2:3000
 echo   Caso contrario, se recomienda usar la IPv4 de la Maquina Servidor.
-echo   EN CASO DE NO FUNCIONAR. TAMBIEN SE PUEDE USAR > npm run dev | Desde la consola de comandos.
+echo   EN CASO DE NO FUNCIONAR. TAMBIEN SE PUEDE USAR npm run dev Desde la consola de comandos.
 echo ======================================================
 echo.
 

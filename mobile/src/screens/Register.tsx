@@ -15,16 +15,20 @@ const TabItem = ({ Icon, label, active, onPress }: any) => (
 
 export const Register = ({ navigation }: any) => {
     const [form, setForm] = useState({ fullName: '', email: '', password: '', confirmPassword: '' });
+    const [loading, setLoading] = useState(false);
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
     const handleRegister = async () => {
         const { fullName, email, password, confirmPassword } = form;
 
         // Validaciones requeridas
         if (!fullName || !email || !password) return Alert.alert('Error', 'Todos los campos son obligatorios');
-        if (!email.includes('@')) return Alert.alert('Error', 'Formato de correo inválido');
+        if (!emailRegex.test(email)) return Alert.alert('Error', 'Formato de correo inválido');
         if (password.length < 6) return Alert.alert('Error', 'La contraseña debe tener al menos 6 caracteres');
         if (password !== confirmPassword) return Alert.alert('Error', 'Las contraseñas no coinciden');
 
+        setLoading(true);
         try {
             await authService.register(fullName, email, password);
             Alert.alert('Éxito', 'Cuenta creada. Ahora puedes iniciar sesión.');
@@ -32,6 +36,8 @@ export const Register = ({ navigation }: any) => {
         } catch (error) {
             console.error(error);
             Alert.alert('Error', 'No se pudo crear la cuenta');
+        } finally {
+            setLoading(false);
         }
     };
 
@@ -50,21 +56,30 @@ export const Register = ({ navigation }: any) => {
                 <TextInput
                     style={styles.input} placeholder="Nombre completo"
                     onChangeText={(t) => setForm({ ...form, fullName: t })}
+                    accessibilityLabel="Campo de nombre completo"
+                    returnKeyType="next"
                 />
                 <TextInput
                     style={styles.input} placeholder="Correo electrónico" autoCapitalize="none"
                     onChangeText={(t) => setForm({ ...form, email: t })}
+                    keyboardType="email-address"
+                    accessibilityLabel="Campo de correo electrónico"
+                    returnKeyType="next"
                 />
                 <TextInput
                     style={styles.input} placeholder="Contraseña" secureTextEntry
                     onChangeText={(t) => setForm({ ...form, password: t })}
+                    accessibilityLabel="Campo de contraseña"
+                    returnKeyType="next"
                 />
                 <TextInput
                     style={styles.input} placeholder="Confirmar contraseña" secureTextEntry
                     onChangeText={(t) => setForm({ ...form, confirmPassword: t })}
+                    accessibilityLabel="Campo de confirmar contraseña"
+                    returnKeyType="done"
                 />
 
-                <CustomButton title="Registrarme" onPress={handleRegister} />
+                <CustomButton title="Registrarme" onPress={handleRegister} loading={loading} disabled={loading} />
 
                 <TouchableOpacity onPress={() => navigation.navigate('Login')}>
                     <Text style={styles.footerText}>¿Ya tienes una cuenta? <Text style={{ color: Colors.primary }}>Iniciar sesión</Text></Text>
